@@ -1,15 +1,20 @@
-$(document).ready(function() {
-    $('#registrationForm').on('submit', function(e) {
-        e.preventDefault();
+$(document).ready(function () {
+    $("#registrationForm").submit(function (event) {
+        event.preventDefault(); // Stop default submit
+
+        let formData = $(this).serialize(); // Collect form data
+
         $.ajax({
-            url: 'submit.php',
-            type: 'POST',
-            data: $(this).serialize(),
-            success: function(response) {
-                $('#result').html(response).fadeIn();
+            url: "https://formspree.io/f/mdkqwwke",
+            method: "POST",
+            data: formData,
+            dataType: "json",
+            success: function () {
+                $("#result").html("<p style='color: green;'>Form submitted successfully!</p>");
+                $("#registrationForm")[0].reset();
             },
-            error: function() {
-                $('#result').html('<span style="color:red;">Submission failed. Please try again.</span>').fadeIn();
+            error: function () {
+                $("#result").html("<p style='color: red;'>Submission failed. Try again.</p>");
             }
         });
     });
